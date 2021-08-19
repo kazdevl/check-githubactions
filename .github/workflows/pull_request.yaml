@@ -1,0 +1,10 @@
+name: validator
+on:
+  pull_request:
+    types: [ready_for_review]
+jobs:
+  validate_title:
+    name: validate_title
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello ${{ github.event.pull_request.title }}"
