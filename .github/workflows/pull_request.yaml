@@ -16,7 +16,7 @@ jobs:
           script: |
             console.log('context: ', context)
             const REGEX = new RegExp(/^(feat|fix|docs|style|refactor|test|chore)\([A-Za-z0-9*]+\): .+/);
-            if !(REGEX.test(context.payload.pull_request.title)) {
+            if (!REGEX.test(context.payload.pull_request.title)) {
               await github.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
