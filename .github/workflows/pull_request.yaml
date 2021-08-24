@@ -14,14 +14,16 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log('context: ', context)
-            const REGEX = new RegExp(/^(feat|fix|docs|style|refactor|test|chore)\([A-Za-z0-9*]+\): .+/);
+            if (!context.payload.pull_request.labels.find(e => e.name == 'WIP 🖐')) {
+              return;
+            }
+            const REGEX = new RegExp(/^(feat|fix|docs|style|refactor|test|chore)\(.+\): .+/);
             if (!REGEX.test(context.payload.pull_request.title)) {
               await github.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: '正しいタイトルにしてください.'+context.payload.pull_request.title
+                body: '正しいタイトルにしてください。\nよろしくお願いします。'
               })
               await github.issues.addLabels({
                 issue_number: context.issue.number,
